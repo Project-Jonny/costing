@@ -50,8 +50,8 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         tableView.allowsMultipleSelection = true
         self.view.addSubview(tableView)
         
-        LoadingProxy.set(v: self); //表示する親をセット
-        LoadingProxy.on();//ローディング表示。非表示にする場合はoff
+        LoadingProxy.set(v: self) //表示する親をセット
+        LoadingProxy.on() //ローディング表示。非表示にする場合はoff
         
         baika.layer.borderWidth = 1
         genkaritsu.layer.borderWidth = 1
