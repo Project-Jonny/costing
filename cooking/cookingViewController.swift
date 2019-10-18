@@ -17,6 +17,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     
     @IBOutlet var Kotei1: UIButton!
     @IBOutlet var Kotei2: UIButton!
+    @IBOutlet var tableViewContainer: UIView!
     
     var celltaped:Int = 0
     var tableView:UITableView = UITableView()
@@ -44,11 +45,11 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         // tableViewのヘッダーにセット
         tableView.tableHeaderView = searchController.searchBar
         
-        tableView.frame = CGRect(x: 0, y: (self.view.bounds.height - view.frame.height/2), width: view.frame.width, height: view.frame.height/2)
+        tableView.frame = tableViewContainer.bounds
         tableView.delegate = self
         tableView.dataSource = self
         tableView.allowsMultipleSelection = true
-        self.view.addSubview(tableView)
+        tableViewContainer.addSubview(tableView)
         
         LoadingProxy.set(v: self) //表示する親をセット
         LoadingProxy.on() //ローディング表示。非表示にする場合はoff
