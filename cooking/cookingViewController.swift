@@ -146,7 +146,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
                 switch response.result{
                 case .success:
                       // 通信成功時
-                    LoadingProxy.off();
+                    LoadingProxy.off()
                     guard response.data != nil else {
                           return
                       }
