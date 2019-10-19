@@ -55,4 +55,3 @@ extension CellViewController: UITextFieldDelegate {
     }
     
 }
-//このUIってどうなん、シンプルすぎない？センスないわあ〜

@@ -27,24 +27,26 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //refreshControllまとめ
         refreshControll.attributedTitle = NSAttributedString(string: "更新")
         refreshControll.addTarget(self, action: #selector(refresh), for: .valueChanged)
-
         tableView.addSubview(refreshControll)
         
+        //searchControllerまとめ
         searchController = UISearchController(searchResultsController: nil)
 //        searchController.searchResultsUpdater = (self as! UISearchResultsUpdating)
-        // searchBarの位置を固定する
+        //位置を固定する
         searchController.hidesNavigationBarDuringPresentation = false
-        // searchBarのプレースホルダー
+        //プレースホルダー
         searchController.searchBar.placeholder = "search"
-        // searchBarフォーカス時に背景色を暗くするか？
+        //フォーカス時に背景色を暗くするか？
         searchController.obscuresBackgroundDuringPresentation = true
-        // searchbarのサイズを調整
+        //サイズを調整
         searchController.searchBar.sizeToFit()
-        // tableViewのヘッダーにセット
+        //tableViewのヘッダーにセット
         tableView.tableHeaderView = searchController.searchBar
         
+        //Tableviewまとめ
         tableView.frame = tableViewContainer.bounds
         tableView.delegate = self
         tableView.dataSource = self
@@ -364,4 +366,3 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
 //検索窓の枠線消したいなあ〜
 //カテゴリつけたい。どっかでカウントしてセクションの数に入れる？
 //更新した時のIndicatorをもっとスマートにしたいな、更新完了したらスクロール戻すとか。
-//利益額と原価計はラベルにしちゃってもいいかなあ、どうしよかなあ

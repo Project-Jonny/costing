@@ -134,4 +134,3 @@ class recipeViewController: UIViewController,UITableViewDelegate, UITableViewDat
 //検索窓をスクロールしないようにしたい😡
 //検索結果が出てこない😡
 //検索窓の枠線消したいよね、わかる
-//削除するとバグる😡　→　記録が削除されず保持され続けてる
