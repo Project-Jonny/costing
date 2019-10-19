@@ -6,6 +6,7 @@ class CopyViewController: UIViewController, UINavigationControllerDelegate, UITa
     @IBOutlet var genkaritsu: UILabel!
     @IBOutlet var rieki: UILabel!
     @IBOutlet var genkaTotal: UILabel!
+    @IBOutlet var tableViewContainer: UIView!
     
     var tableView:UITableView = UITableView()
     var baikavalue:String = ""
@@ -18,10 +19,10 @@ class CopyViewController: UIViewController, UINavigationControllerDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.frame = CGRect(x: 0, y: (self.view.bounds.height - view.frame.height/2), width: view.frame.width, height: view.frame.height/2)
+        tableView.frame = tableViewContainer.bounds
         tableView.delegate = self
         tableView.dataSource = self
-        self.view.addSubview(tableView)
+        tableViewContainer.addSubview(tableView)
         
         self.navigationItem.title = recipevalue
                 
