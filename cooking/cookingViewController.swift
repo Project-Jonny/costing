@@ -37,7 +37,6 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
 //        searchController.searchResultsUpdater = (self as! UISearchResultsUpdating)
         //位置を固定する
         searchController.hidesNavigationBarDuringPresentation = false
-        //プレースホルダー
         searchController.searchBar.placeholder = "search"
         //フォーカス時に背景色を暗くするか？
         searchController.obscuresBackgroundDuringPresentation = true
@@ -73,10 +72,6 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         Kotei2.layer.cornerRadius = 10
         
         getData()
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//            LoadingProxy.off();
-//        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(cookingViewController.receivechange(_:)), name: Notification.Name("change"), object: nil)
                 
@@ -196,7 +191,6 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
             self.total += Float(recipedata.shared.priceArray[indexPath.row]) ?? 0
             genkaTotal.text = String(self.total)
             //totalをラベルに反映させる
-        
             selectedrecipe.append(indexPath.row)
         
             if kotei == "baika" {
@@ -223,15 +217,9 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     
         @objc func refresh(){
 
+            LoadingProxy.on();
             getData()
             refreshControll.endRefreshing()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                LoadingProxy.on();
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                    LoadingProxy.off();
-                }
-            }
 
         }
     
@@ -288,7 +276,6 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
             genkaritsu.layer.borderColor = UIColor.lightGray.cgColor
         
             kotei = "baika"
-        
     }
     
     @IBAction func kotei2(_ sender: Any) {
@@ -302,7 +289,6 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
             baika.layer.borderColor = UIColor.lightGray.cgColor
 
             kotei = "genkaritsu"
-
     }
     
     @IBAction func save(_ sender: Any) {
@@ -365,4 +351,3 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
 //検索結果が出てこない😡
 //検索窓の枠線消したいなあ〜
 //カテゴリつけたい。どっかでカウントしてセクションの数に入れる？
-//更新した時のIndicatorをもっとスマートにしたいな、更新完了したらスクロール戻すとか。
