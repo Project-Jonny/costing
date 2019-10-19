@@ -3,7 +3,7 @@ import UIKit
 import SwiftyJSON
 
 @available(iOS 13.0, *)
-class cookingViewController: UIViewController, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource {
+class cookingViewController: UIViewController, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource,UISearchControllerDelegate {
     
     var total: Float = 0
     var kotei: String = "baika"
@@ -33,8 +33,9 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         tableView.addSubview(refreshControll)
         
         //searchControllerまとめ
+        searchController.delegate = self
         searchController = UISearchController(searchResultsController: nil)
-//        searchController.searchResultsUpdater = (self as! UISearchResultsUpdating)
+        searchController.searchResultsUpdater = (self as! UISearchResultsUpdating)
         //位置を固定する
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "search"
@@ -104,14 +105,14 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         return recipedata.shared.nameArray.count
         //Idの数だけやるからどのIdArrayのcountでも良さげ
     }
-//    // 文字が入力される度に呼ばれる
-//    func updateSearchResults(for searchController: UISearchController) {
-//        self.searchResults = recipedata.filter{
+    // 文字が入力される度に呼ばれる
+    func updateSearchResults(for searchController: UISearchController) {
+//        self.SearchResultsController = recipedata.filter{
 //            // 大文字と小文字を区別せずに検索
 //            $0.lowercased().contains(searchController.searchBar.text!.lowercased())
 //        }
-//        self.tableView.reloadData()
-//    }
+        self.tableView.reloadData()
+    }
       
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
