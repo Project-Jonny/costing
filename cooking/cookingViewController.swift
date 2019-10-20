@@ -35,7 +35,6 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         //searchControllerまとめ
         searchController.delegate = self
         searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = (self as! UISearchResultsUpdating)
         //位置を固定する
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "search"
@@ -102,17 +101,21 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recipedata.shared.nameArray.count
+        return recipedata.shared.categoryArray.count
         //Idの数だけやるからどのIdArrayのcountでも良さげ
     }
+    //カテゴリで分けたい
+//    private func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return recipedata.shared.categoryArray[section]
+//    }
     // 文字が入力される度に呼ばれる
-    func updateSearchResults(for searchController: UISearchController) {
+//    func updateSearchResults(for searchController: UISearchController) {
 //        self.SearchResultsController = recipedata.filter{
 //            // 大文字と小文字を区別せずに検索
 //            $0.lowercased().contains(searchController.searchBar.text!.lowercased())
 //        }
-        self.tableView.reloadData()
-    }
+//        self.tableView.reloadData()
+//    }
       
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
@@ -351,4 +354,3 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
 //検索窓をスクロールしないようにしたい😡
 //検索結果が出てこない😡
 //検索窓の枠線消したいなあ〜
-//カテゴリつけたい。どっかでカウントしてセクションの数に入れる？
