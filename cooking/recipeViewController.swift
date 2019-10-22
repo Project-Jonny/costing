@@ -24,7 +24,7 @@ class recipeViewController: UIViewController,UITableViewDelegate, UITableViewDat
         searchController.searchBar.placeholder = "search"
         searchController.obscuresBackgroundDuringPresentation = true
         searchController.searchBar.sizeToFit()
-        tableview.tableHeaderView = searchController.searchBar
+        navigationItem.searchController = searchController
 
         tableview.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         tableview.delegate = self

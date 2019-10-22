@@ -99,23 +99,14 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         celltaped = indexPath.row
         performSegue(withIdentifier: "edit", sender: nil)
     }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1//recipedata.shared.categoryArray.count
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recipedata.shared.categoryArray.count
+        return recipedata.shared.categoryArray.count//countの代わりに[section]つけたいけどエラー出る
         //Idの数だけやるからどのIdArrayのcountでも良さげ
     }
-    //カテゴリで分けたい
-//    private func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return recipedata.shared.categoryArray[section]
-//    }
-    // 文字が入力される度に呼ばれる
-//    func updateSearchResults(for searchController: UISearchController) {
-//        self.SearchResultsController = recipedata.filter{
-//            // 大文字と小文字を区別せずに検索
-//            $0.lowercased().contains(searchController.searchBar.text!.lowercased())
-//        }
-//        self.tableView.reloadData()
-//    }
       
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
