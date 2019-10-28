@@ -3,11 +3,13 @@ import UIKit
 import SwiftyJSON
 
 @available(iOS 13.0, *)
-class cookingViewController: UIViewController, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource,UISearchControllerDelegate {
+class cookingViewController: UIViewController, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource,UISearchControllerDelegate,UISearchResultsUpdating {
     
     var total: Float = 0
     var kotei: String = "baika"
     var selectedrecipe:[Int] = []
+    var searchController = UISearchController()
+    var searchResults:[Int] = []
     
     //taniはGoogleData上でunitになってる
     @IBOutlet var baika: UITextField!
@@ -21,7 +23,6 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     
     var celltaped:Int = 0
     var tableView:UITableView = UITableView()
-    var searchController = UISearchController()
     var refreshControll = UIRefreshControl()
 
     override func viewDidLoad() {
@@ -35,11 +36,12 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         //searchControllerまとめ
         searchController.delegate = self
         searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = (self as UISearchResultsUpdating)
         //位置を固定する
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "search"
         //フォーカス時に背景色を暗くするか？
-        searchController.obscuresBackgroundDuringPresentation = true
+        searchController.obscuresBackgroundDuringPresentation = false
         //サイズを調整
         searchController.searchBar.sizeToFit()
         //tableViewのヘッダーにセット
@@ -74,6 +76,8 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         getData()
         
         NotificationCenter.default.addObserver(self, selector: #selector(cookingViewController.receivechange(_:)), name: Notification.Name("change"), object: nil)
+        
+        searchResults = recipedata.shared.nameArray.enumerated().map { $0.0 }
                 
     }
     
@@ -94,6 +98,21 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         genkaritsu.resignFirstResponder()
 
     }
+     //文字が入力される度に呼ばれる
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        if searchController.searchBar.text! == ""{
+            searchResults = recipedata.shared.nameArray.enumerated().map { $0.0 }
+        }else{
+            self.searchResults = recipedata.shared.nameArray.enumerated().filter({
+            // 大文字と小文字を区別せずに検索
+                $0.1.lowercased().contains(searchController.searchBar.text!.lowercased())
+            }).map({ $0.0 })
+            
+        }
+        self.view.endEditing(true)
+        self.tableView.reloadData()
+    }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         celltaped = indexPath.row
@@ -112,7 +131,8 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
         
         cell.selectionStyle = .blue
-        cell.textLabel?.text = recipedata.shared.nameArray[indexPath.row]
+        //cell.textLabel?.text = recipedata.shared.nameArray[indexPath.row]
+        cell.textLabel?.text = recipedata.shared.nameArray[searchResults[indexPath.row]]
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         cell.textLabel?.numberOfLines = 1
         cell.detailTextLabel?.text = recipedata.shared.amountArray[indexPath.row] + recipedata.shared.taniArray[indexPath.row] + "  " + recipedata.shared.priceArray[indexPath.row] + "円"
@@ -342,6 +362,3 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     }
 
 }
-//検索窓をスクロールしないようにしたい😡
-//検索結果が出てこない😡
-//検索窓の枠線消したいなあ〜

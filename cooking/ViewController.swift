@@ -34,7 +34,7 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
         getData()
         
         searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = (self as! UISearchResultsUpdating)
+        searchController.searchResultsUpdater = (self as UISearchResultsUpdating)
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "search"
         searchController.obscuresBackgroundDuringPresentation = false
@@ -75,9 +75,10 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
         print(totalArray)
         print(tapArray)
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return searchResults.count
-        }
+        return searchResults.count
+    }
          //文字が入力される度に呼ばれる
         func updateSearchResults(for searchController: UISearchController) {
             
@@ -168,11 +169,11 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
             AF.request(url!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { (response) in
                 switch response.result{
                 case .success:
-                      // 通信成功時
+                    // 通信成功時
                     LoadingProxy.off()
                     guard response.data != nil else {
                           return
-                      }
+                    }
 
                       do {
                           // googleDataはGoogleDataの配列( [GoogleData] )になります。
