@@ -3,7 +3,7 @@ import UIKit
 import SwiftyJSON
 
 @available(iOS 13.0, *)
-class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UISearchResultsUpdating {
     
     //tableview作成
     @IBOutlet var tableview: UITableView!
@@ -16,6 +16,7 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
     
     var celltapped:Int = 0
     var searchController = UISearchController()
+    var searchResults:[Int] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,17 +34,25 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
         getData()
         
         searchController = UISearchController(searchResultsController: nil)
-//        searchController.searchResultsUpdater = (self as! UISearchResultsUpdating)
+        searchController.searchResultsUpdater = (self as! UISearchResultsUpdating)
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "search"
-        searchController.obscuresBackgroundDuringPresentation = true
+        searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.sizeToFit()
         navigationItem.searchController = searchController
 
         tableview.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         tableview.delegate = self
         tableview.dataSource = self
-        
+
+        textArray = UserDefaults.standard.array(forKey: "alert") as? [String] ?? []
+        baikaArray = UserDefaults.standard.array(forKey: "baikaB") as? [String] ?? []
+        genkaArray = UserDefaults.standard.array(forKey: "genkaB") as? [String] ?? []
+        riekiArray = UserDefaults.standard.array(forKey: "riekiB") as? [String] ?? []
+        totalArray = UserDefaults.standard.array(forKey: "totalB") as? [String] ?? []
+        tapArray = UserDefaults.standard.array(forKey: "tap") as? [[Int]] ?? []
+ 
+        searchResults = textArray.enumerated().map { $0.0 }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,6 +64,8 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
         totalArray = UserDefaults.standard.array(forKey: "totalB") as? [String] ?? []
         tapArray = UserDefaults.standard.array(forKey: "tap") as? [[Int]] ?? []
         
+//        searchController.searchBar.text = ""
+        
         tableview.reloadData()
         
         print(textArray)
@@ -65,21 +76,30 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
         print(tapArray)
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return textArray.count
+            return searchResults.count
         }
-        // 文字が入力される度に呼ばれる
-//        func updateSearchResults(for searchController: UISearchController) {
-//            self.searchResults = recipedata.filter{
-//                // 大文字と小文字を区別せずに検索
-//                $0.lowercased().contains(searchController.searchBar.text!.lowercased())
-//            }
-//            self.tableView.reloadData()
-//        }
+         //文字が入力される度に呼ばれる
+        func updateSearchResults(for searchController: UISearchController) {
+            
+            if searchController.searchBar.text! == ""{
+                searchResults = textArray.enumerated().map { $0.0 }
+            }else{
+                self.searchResults = textArray.enumerated().filter({
+                // 大文字と小文字を区別せずに検索
+                    $0.1.lowercased().contains(searchController.searchBar.text!.lowercased())
+                }).map({ $0.0 })
+                
+            }
+            self.tableview.reloadData()
+
+            self.view.endEditing(true)
+        }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
             
-            cell.textLabel?.text = textArray[indexPath.row]
+            let textArrayIndex = searchResults[indexPath.row]
+            cell.textLabel?.text = textArray[textArrayIndex] // = textArray[searchResults[indexPath.row]]
             
             return cell
         }
@@ -111,13 +131,14 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
                 tapArray.remove(at: indexPath.row)
                 UserDefaults.standard.set(tapArray, forKey: "tap")
                 UserDefaults.standard.synchronize()
+                searchResults = textArray.enumerated().map { $0.0 }
 
                 tableview.reloadData()
 
             }
         }
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-              celltapped = indexPath.row
+              celltapped = searchResults[indexPath.row]
               performSegue(withIdentifier: "detail", sender: nil)
             }
         
