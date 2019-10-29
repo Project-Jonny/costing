@@ -91,9 +91,8 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
                 }).map({ $0.0 })
                 
             }
-            self.tableview.reloadData()
-
             self.view.endEditing(true)
+            self.tableview.reloadData()
         }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

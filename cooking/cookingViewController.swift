@@ -3,7 +3,7 @@ import UIKit
 import SwiftyJSON
 
 @available(iOS 13.0, *)
-class cookingViewController: UIViewController, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource,UISearchControllerDelegate,UISearchResultsUpdating {
+class cookingViewController: UIViewController, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource,UISearchResultsUpdating {
     
     var total: Float = 0
     var kotei: String = "baika"
@@ -34,7 +34,6 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         tableView.addSubview(refreshControll)
         
         //searchControllerまとめ
-        searchController.delegate = self
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = (self as UISearchResultsUpdating)
         //位置を固定する
@@ -108,10 +107,10 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
             // 大文字と小文字を区別せずに検索
                 $0.1.lowercased().contains(searchController.searchBar.text!.lowercased())
             }).map({ $0.0 })
-            
-        }
+            }
         self.view.endEditing(true)
         self.tableView.reloadData()
+        
     }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
@@ -123,7 +122,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recipedata.shared.categoryArray.count//countの代わりに[section]つけたいけどエラー出る
+        return searchResults.count//countの代わりに[section]つけたいけどエラー出る
         //Idの数だけやるからどのIdArrayのcountでも良さげ
     }
       
@@ -131,7 +130,6 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
         
         cell.selectionStyle = .blue
-        //cell.textLabel?.text = recipedata.shared.nameArray[indexPath.row]
         cell.textLabel?.text = recipedata.shared.nameArray[searchResults[indexPath.row]]
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         cell.textLabel?.numberOfLines = 1
@@ -175,13 +173,15 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
                         recipedata.shared.categoryArray = []
 
                           // 前のforEachとやっていることは同じです。
-                          googleData.forEach { item in
-                              recipedata.shared.nameArray.append(item.name)
-                              recipedata.shared.amountArray.append("\(item.amount)")
-                              recipedata.shared.taniArray.append(item.unit)
-                              recipedata.shared.priceArray.append("\(item.price)")
-                              recipedata.shared.categoryArray.append("\(item.category)")
-                          }
+                        googleData.forEach { item in
+                            recipedata.shared.nameArray.append(item.name)
+                            recipedata.shared.amountArray.append("\(item.amount)")
+                            recipedata.shared.taniArray.append(item.unit)
+                            recipedata.shared.priceArray.append("\(item.price)")
+                            recipedata.shared.categoryArray.append("\(item.category)")
+                            
+                        }
+                        
                       } catch let error {
                           // JSON -> GoogleData にデコード失敗
                           print(error)
@@ -197,84 +197,84 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     }
 
       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        celltaped = searchResults[indexPath.row]
         let cell = tableView.cellForRow(at:indexPath)
-                  print("select - \(indexPath)")
+        print("select - \(indexPath)")
         
-            cell?.isSelected = true
+        cell?.isSelected = true
         
-            //totalに入れる
-            self.total += Float(recipedata.shared.priceArray[indexPath.row]) ?? 0
-            genkaTotal.text = String(self.total)
-            //totalをラベルに反映させる
-            selectedrecipe.append(indexPath.row)
-        
-            if kotei == "baika" {
-                    BaikaKotei()
-        
-                }else{
-                    GenkaKotei()
+        //totalに入れる
+        self.total += Float(recipedata.shared.priceArray[indexPath.row]) ?? 0
+        genkaTotal.text = String(self.total)
+        //totalをラベルに反映させる
+        selectedrecipe.append(indexPath.row)
+        if kotei == "baika" {
+            BaikaKotei()
+        }else{
+            GenkaKotei()
+            
         }
+        
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "edit" {
             
           let nextVC = segue.destination as! CellViewController
-              nextVC.namevalue = recipedata.shared.nameArray[celltaped]
-              nextVC.categoryvalue = recipedata.shared.categoryArray[celltaped]
-              nextVC.unitvalue = recipedata.shared.taniArray[celltaped]
-              nextVC.amountvalue = recipedata.shared.amountArray[celltaped]
-              nextVC.pricevalue = recipedata.shared.priceArray[celltaped]
-              nextVC.cellindex = celltaped
+            nextVC.namevalue = recipedata.shared.nameArray[celltaped]
+            nextVC.categoryvalue = recipedata.shared.categoryArray[celltaped]
+            nextVC.unitvalue = recipedata.shared.taniArray[celltaped]
+            nextVC.amountvalue = recipedata.shared.amountArray[celltaped]
+            nextVC.pricevalue = recipedata.shared.priceArray[celltaped]
+            nextVC.cellindex = celltaped
             
         }
     }
-    
-        @objc func refresh(){
+    @objc func refresh(){
 
-            LoadingProxy.on();
-            getData()
-            refreshControll.endRefreshing()
+        LoadingProxy.on();
+        getData()
+        refreshControll.endRefreshing()
 
-        }
+    }
     
     func GenkaKotei(){
 
-          let Genkaritsu = Float(genkaritsu.text!) ?? 0
-          let Sale  = self.total * Genkaritsu
-              rieki.text = String(Sale - self.total)
-              baika.text = String(Sale)
+        let Genkaritsu = Float(genkaritsu.text!) ?? 0
+        let Sale  = self.total * Genkaritsu
+            rieki.text = String(Sale - self.total)
+            baika.text = String(Sale)
     }
 
     func BaikaKotei() {
 
-          //売価を固定
-          let Sale  = Float(baika.text!) ?? 0
-          guard Sale > 0 else { return }
+        //売価を固定
+        let Sale  = Float(baika.text!) ?? 0
+        guard Sale > 0 else { return }
 
-              genkaritsu.text = String(Int(Float(self.total) / Float(Sale) * 100))
-              rieki.text = String(Sale - self.total)
+            genkaritsu.text = String(Int(Float(self.total) / Float(Sale) * 100))
+            rieki.text = String(Sale - self.total)
 
     }
-
     //2回目の選択時
-      func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-            print("deselect - \(indexPath)")
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath:
+        IndexPath) {
+        print("deselect - \(indexPath)")
 
-            let cell = tableView.cellForRow(at:indexPath)
-                cell?.isSelected = false
+        let cell = tableView.cellForRow(at:indexPath)
+            cell?.isSelected = false
 
             self.total -= Float(recipedata.shared.priceArray[indexPath.row]) ?? 0
-                genkaTotal.text = String(self.total)
+            genkaTotal.text = String(self.total)
             if let deselect = selectedrecipe.firstIndex(of: indexPath.row){
-                selectedrecipe.remove(at: deselect)
-                }
+            selectedrecipe.remove(at: deselect)
+            }
 
             if kotei == "baika" {
-                    BaikaKotei()
+                BaikaKotei()
 
             }else{
-                    GenkaKotei()
+                GenkaKotei()
 
             }
 
@@ -282,80 +282,81 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     
     @IBAction func kotei1(_ sender: Any) {
         
-            Kotei1.backgroundColor = UIColor.systemBlue
-            Kotei1.layer.borderColor = UIColor.systemBlue.cgColor
-            Kotei2.backgroundColor = UIColor.lightGray
-            Kotei2.layer.borderColor = UIColor.lightGray.cgColor
+        Kotei1.backgroundColor = UIColor.systemBlue
+        Kotei1.layer.borderColor = UIColor.systemBlue.cgColor
+        Kotei2.backgroundColor = UIColor.lightGray
+        Kotei2.layer.borderColor = UIColor.lightGray.cgColor
         
-            baika.layer.borderColor = UIColor.red.cgColor
-            genkaritsu.layer.borderColor = UIColor.lightGray.cgColor
+        baika.layer.borderColor = UIColor.red.cgColor
+        genkaritsu.layer.borderColor = UIColor.lightGray.cgColor
         
-            kotei = "baika"
+        kotei = "baika"
     }
     
     @IBAction func kotei2(_ sender: Any) {
         
-            Kotei2.backgroundColor = UIColor.systemBlue
-            Kotei2.layer.borderColor = UIColor.systemBlue.cgColor
-            Kotei1.backgroundColor = UIColor.lightGray
-            Kotei1.layer.borderColor = UIColor.lightGray.cgColor
+        Kotei2.backgroundColor = UIColor.systemBlue
+        Kotei2.layer.borderColor = UIColor.systemBlue.cgColor
+        Kotei1.backgroundColor = UIColor.lightGray
+        Kotei1.layer.borderColor = UIColor.lightGray.cgColor
         
-            genkaritsu.layer.borderColor = UIColor.red.cgColor
-            baika.layer.borderColor = UIColor.lightGray.cgColor
+        genkaritsu.layer.borderColor = UIColor.red.cgColor
+        baika.layer.borderColor = UIColor.lightGray.cgColor
 
-            kotei = "genkaritsu"
+        kotei = "genkaritsu"
     }
     
     @IBAction func save(_ sender: Any) {
         
-            var alertTextField: UITextField?
+        var alertTextField: UITextField?
 
-            let alert = UIAlertController(
-                title: "レシピ名",
-                message: "名前をつけて保存",
-                preferredStyle: UIAlertController.Style.alert)
-                    alert.addTextField(
-                        configurationHandler: {(textField: UITextField!) in
-                        alertTextField = textField
+        let alert = UIAlertController(
+            title: "レシピ名",
+            message: "名前をつけて保存",
+            preferredStyle: UIAlertController.Style.alert)
+                alert.addTextField(
+                    configurationHandler: {(textField: UITextField!) in
+                    alertTextField = textField
                     })
                     alert.addAction(
-                        UIAlertAction(
-                            title: "Cancel",
-                            style: UIAlertAction.Style.cancel,
-                            handler: nil))
+                    UIAlertAction(
+                        title: "Cancel",
+                        style: UIAlertAction.Style.cancel,
+                        handler: nil))
                     alert.addAction(
                         UIAlertAction(
-                            title: "OK",
-                            style: UIAlertAction.Style.default) { _ in
-                            if let text = alertTextField?.text {
+                        title: "OK",
+                        style: UIAlertAction.Style.default) { _ in
+                        if let text = alertTextField?.text {
                             
-                var saver: [String] = UserDefaults.standard.array(forKey: "alert") as? [String] ?? []
-                saver.append(text)
-                UserDefaults.standard.set(saver, forKey: "alert")
+                            var saver: [String] = UserDefaults.standard.array(forKey: "alert") as? [String] ?? []
+                            saver.append(text)
+                            UserDefaults.standard.set(saver, forKey: "alert")
                             
-                var baikabox: [String] = UserDefaults.standard.array(forKey: "baikaB") as? [String] ?? []
-                baikabox.append(self.baika.text!)
-                UserDefaults.standard.set(baikabox, forKey: "baikaB")
+                            var baikabox: [String] = UserDefaults.standard.array(forKey: "baikaB") as? [String] ?? []
+                            baikabox.append(self.baika.text!)
+                            UserDefaults.standard.set(baikabox, forKey: "baikaB")
+                                        
+                            var genkabox: [String] = UserDefaults.standard.array(forKey: "genkaB") as? [String] ?? []
+                            genkabox.append(self.genkaritsu.text!)
+                            UserDefaults.standard.set(genkabox, forKey: "genkaB")
+                                        
+                            var riekibox: [String] = UserDefaults.standard.array(forKey: "riekiB") as? [String] ?? []
+                            riekibox.append(self.rieki.text!)
+                            UserDefaults.standard.set(riekibox, forKey: "riekiB")
+                                        
+                            var totalbox: [String] = UserDefaults.standard.array(forKey: "totalB") as? [String] ?? []
+                            totalbox.append(self.genkaTotal.text!)
+                            UserDefaults.standard.set(totalbox, forKey: "totalB")
+                                        
+                            var tap: [[Int]] = UserDefaults.standard.array(forKey: "tap") as? [[Int]] ?? []
+                            tap.append(self.selectedrecipe)
+                            UserDefaults.standard.set(tap, forKey: "tap")
                             
-                var genkabox: [String] = UserDefaults.standard.array(forKey: "genkaB") as? [String] ?? []
-                genkabox.append(self.genkaritsu.text!)
-                UserDefaults.standard.set(genkabox, forKey: "genkaB")
+                            }
                             
-                var riekibox: [String] = UserDefaults.standard.array(forKey: "riekiB") as? [String] ?? []
-                riekibox.append(self.rieki.text!)
-                UserDefaults.standard.set(riekibox, forKey: "riekiB")
-                            
-                var totalbox: [String] = UserDefaults.standard.array(forKey: "totalB") as? [String] ?? []
-                totalbox.append(self.genkaTotal.text!)
-                UserDefaults.standard.set(totalbox, forKey: "totalB")
-                            
-                var tap: [[Int]] = UserDefaults.standard.array(forKey: "tap") as? [[Int]] ?? []
-                tap.append(self.selectedrecipe)
-                UserDefaults.standard.set(tap, forKey: "tap")
-            
-                    }
-                }
-            )
+                        }
+        )
 
         self.present(alert, animated: true, completion: nil)
 

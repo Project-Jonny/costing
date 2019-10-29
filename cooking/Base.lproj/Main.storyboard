@@ -221,7 +221,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="XG2-d3-2WL">
                         <barButtonItem key="backBarButtonItem" title="戻る" id="TBm-kO-EtE"/>
-                        <barButtonItem key="rightBarButtonItem" title="保存" style="plain" id="b8j-qD-mzT">
+                        <barButtonItem key="rightBarButtonItem" title="保存" style="done" id="b8j-qD-mzT">
                             <connections>
                                 <action selector="save:" destination="SQ9-N9-RXp" id="bvc-wY-wL2"/>
                             </connections>
@@ -276,7 +276,7 @@
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="aaa" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ipy-Ef-Yjj">
                                                 <rect key="frame" x="134.66666666666666" y="0.0" width="29" height="22"/>
-                                                <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
