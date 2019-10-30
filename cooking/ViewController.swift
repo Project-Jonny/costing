@@ -64,8 +64,6 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
         totalArray = UserDefaults.standard.array(forKey: "totalB") as? [String] ?? []
         tapArray = UserDefaults.standard.array(forKey: "tap") as? [[Int]] ?? []
         
-//        searchController.searchBar.text = ""
-        
         tableview.reloadData()
         
         print(textArray)
@@ -110,19 +108,15 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
                 textArray.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 UserDefaults.standard.set(textArray, forKey: "alert")
-    //            UserDefaults.standard.synchronize()
 
                 riekiArray.remove(at: indexPath.row)
                 UserDefaults.standard.set(riekiArray, forKey: "riekiB")
-    //            UserDefaults.standard.synchronize()
 
                 baikaArray.remove(at: indexPath.row)
                 UserDefaults.standard.set(baikaArray, forKey: "baikaB")
-    //            UserDefaults.standard.synchronize()
 
                 genkaArray.remove(at: indexPath.row)
                 UserDefaults.standard.set(genkaArray, forKey: "genkaB")
-    //            UserDefaults.standard.synchronize()
 
                 totalArray.remove(at: indexPath.row)
                 UserDefaults.standard.set(totalArray, forKey: "totalB")

@@ -114,7 +114,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        celltaped = indexPath.row
+        celltaped = searchResults[indexPath.row]
         performSegue(withIdentifier: "edit", sender: nil)
     }
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -197,7 +197,6 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     }
 
       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        celltaped = searchResults[indexPath.row]
         let cell = tableView.cellForRow(at:indexPath)
         print("select - \(indexPath)")
         
