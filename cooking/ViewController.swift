@@ -125,6 +125,7 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
                 tapArray.remove(at: indexPath.row)
                 UserDefaults.standard.set(tapArray, forKey: "tap")
                 UserDefaults.standard.synchronize()
+                
                 searchResults = textArray.enumerated().map { $0.0 }
 
                 tableview.reloadData()

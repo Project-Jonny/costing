@@ -133,7 +133,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         cell.textLabel?.text = recipedata.shared.nameArray[searchResults[indexPath.row]]
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         cell.textLabel?.numberOfLines = 1
-        cell.detailTextLabel?.text = recipedata.shared.amountArray[indexPath.row] + recipedata.shared.taniArray[indexPath.row] + "  " + recipedata.shared.priceArray[indexPath.row] + "円"
+        cell.detailTextLabel?.text = recipedata.shared.amountArray[searchResults[indexPath.row]] + recipedata.shared.taniArray[searchResults[indexPath.row]] + "  " + recipedata.shared.priceArray[searchResults[indexPath.row]] + "円"
         cell.detailTextLabel?.adjustsFontSizeToFitWidth = true
         cell.detailTextLabel?.numberOfLines = 1
         cell.accessoryType = .detailButton
@@ -203,7 +203,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         cell?.isSelected = true
         
         //totalに入れる
-        self.total += Float(recipedata.shared.priceArray[indexPath.row]) ?? 0
+        self.total += Float(recipedata.shared.priceArray[searchResults[indexPath.row]]) ?? 0
         genkaTotal.text = String(self.total)
         //totalをラベルに反映させる
         selectedrecipe.append(indexPath.row)
@@ -263,7 +263,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         let cell = tableView.cellForRow(at:indexPath)
             cell?.isSelected = false
 
-            self.total -= Float(recipedata.shared.priceArray[indexPath.row]) ?? 0
+            self.total -= Float(recipedata.shared.priceArray[searchResults[indexPath.row]]) ?? 0
             genkaTotal.text = String(self.total)
             if let deselect = selectedrecipe.firstIndex(of: indexPath.row){
             selectedrecipe.remove(at: deselect)
