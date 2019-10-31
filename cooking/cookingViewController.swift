@@ -137,13 +137,6 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         cell.detailTextLabel?.adjustsFontSizeToFitWidth = true
         cell.detailTextLabel?.numberOfLines = 1
         cell.accessoryType = .detailButton
-        
-        if cell.isSelected == true{
-            cell.backgroundColor = .systemYellow
-            
-            }else{
-            cell.backgroundColor = nil
-        }
           
         return cell
 

@@ -65,13 +65,6 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
         tapArray = UserDefaults.standard.array(forKey: "tap") as? [[Int]] ?? []
         
         tableview.reloadData()
-        
-        print(textArray)
-        print(riekiArray)
-        print(baikaArray)
-        print(genkaArray)
-        print(totalArray)
-        print(tapArray)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -106,7 +99,6 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
         func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
             if editingStyle == .delete {
                 textArray.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
                 UserDefaults.standard.set(textArray, forKey: "alert")
 
                 riekiArray.remove(at: indexPath.row)
@@ -148,13 +140,7 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
                 nextVC.genkavalue = genkaArray[celltapped]
                 nextVC.totalvalue = totalArray[celltapped]
                 nextVC.tapvalue = tapArray[celltapped]
-                
-                print(textArray[celltapped])
-                print(riekiArray[celltapped])
-                print(baikaArray[celltapped])
-                print(genkaArray[celltapped])
-                print(totalArray[celltapped])
-                print(tapArray[celltapped])
+
             }
         }
     func getData(){
