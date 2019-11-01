@@ -502,7 +502,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cww-nV-qdr"/>
                     </view>
-                    <navigationItem key="navigationItem" id="SXj-LJ-h7F"/>
+                    <navigationItem key="navigationItem" id="SXj-LJ-h7F">
+                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="Oar-Dh-9FJ">
+                            <connections>
+                                <action selector="camera:" destination="lBW-8K-ecu" id="ih4-IM-duU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="baika" destination="IgL-zl-61h" id="9gc-0a-yUh"/>
                         <outlet property="genkaTotal" destination="oAf-p2-W8u" id="cr1-2J-2oL"/>

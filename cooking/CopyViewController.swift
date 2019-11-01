@@ -1,6 +1,7 @@
 import UIKit
+import Photos
 
-class CopyViewController: UIViewController, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource {
+class CopyViewController: UIViewController, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource,UIImagePickerControllerDelegate {
         
     @IBOutlet var baika: UILabel!
     @IBOutlet var genkaritsu: UILabel!
@@ -64,6 +65,27 @@ class CopyViewController: UIViewController, UINavigationControllerDelegate, UITa
                   return cell
 
     }
+    @IBAction func camera(_ sender: Any) {
+        
+        PHPhotoLibrary.requestAuthorization { (status) in
+            switch(status){
+            case .authorized:
+                print("許可されています。")
+                
+            case .denied:
+                print("拒否されました。")
+                
+            case .notDetermined:
+                print("notDetermined")
+                
+            case .restricted:
+                print("restricted")
+            @unknown default: break
+            }
+        }
+        
+        
+        
+        
+    }
 }
-
-//スクショ機能つけたら親切だね〜〜〜

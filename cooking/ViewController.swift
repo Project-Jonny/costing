@@ -39,6 +39,7 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
         searchController.searchBar.placeholder = "search"
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.sizeToFit()
+        searchController.searchBar.tintColor = UIColor.systemBlue
         navigationItem.searchController = searchController
 
         tableview.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
