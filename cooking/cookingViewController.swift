@@ -114,6 +114,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        searchController.dismiss(animated: true, completion: nil)
         celltaped = searchResults[indexPath.row]
         performSegue(withIdentifier: "edit", sender: nil)
     }
@@ -299,6 +300,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     @IBAction func save(_ sender: Any) {
+        searchController.dismiss(animated: true, completion: nil)
         
         var alertTextField: UITextField?
 
