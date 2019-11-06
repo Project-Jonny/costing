@@ -16,6 +16,7 @@ class CopyViewController: UIViewController, UINavigationControllerDelegate, UITa
     var riekivalue:String = ""
     var totalvalue:String = ""
     var tapvalue:[Int] = []
+    var screenShotImage = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,8 +85,34 @@ class CopyViewController: UIViewController, UINavigationControllerDelegate, UITa
             }
         }
         
+        SaveScreenShot()
+
+        let title = "画像を保存しました"
+        let message = ""
+        let okText = "ok"
+
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        let okayButton = UIAlertAction(title: okText, style: UIAlertAction.Style.cancel, handler: nil)
+        alert.addAction(okayButton)
+
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func SaveScreenShot(){
         
+        let width = CGFloat(UIScreen.main.bounds.size.width)
+        let height = CGFloat(UIScreen.main.bounds.size.height)
+        let size = CGSize(width: width, height: height)
         
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        //viewを書き出す
+        self.view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+        // imageにコンテキストの内容を書き出す
+        screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
+        //コンテキストを閉じる
+        UIGraphicsEndImageContext()
+        // imageをカメラロールに保存
+        UIImageWriteToSavedPhotosAlbum(screenShotImage, nil, nil, nil)
         
     }
 }
