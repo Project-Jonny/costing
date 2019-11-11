@@ -40,12 +40,11 @@ extension UIScrollView {
         self.setContentOffset(.zero, animated: false)
         self.zoomScale = 1.0
 
-        let contentSize = contentSize
         UIGraphicsBeginImageContextWithOptions(contentSize, false, scale)
         let duration = 0.3
         DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-            let cols = ceil(contentSize.width / frame.size.width)
-            let rows = ceil(contentSize.height / frame.size.height)
+            let cols = ceil(self.contentSize.width / frame.size.width)
+            let rows = ceil(self.contentSize.height / frame.size.height)
             guard let context = UIGraphicsGetCurrentContext() else {
                 completion()
                 return
