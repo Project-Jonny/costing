@@ -183,3 +183,8 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
 
 
 }
+//navigationbar消えるwhy?
+//一旦押さないと保存したやつが更新されない
+//数値途中で変えると押してた形跡が消える
+//カテゴリわけ出来ない
+//しまえるようにしたい

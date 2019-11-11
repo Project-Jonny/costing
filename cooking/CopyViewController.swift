@@ -21,6 +21,8 @@ class CopyViewController: UIViewController, UINavigationControllerDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        UIScrollView()
+        
         tableView.frame = tableViewContainer.bounds
         tableView.delegate = self
         tableView.dataSource = self
@@ -86,7 +88,13 @@ class CopyViewController: UIViewController, UINavigationControllerDelegate, UITa
         }
         
         SaveScreenShot()
+        Arert()
 
+    }
+    
+    func Arert(){
+        
+        
         let title = "画像を保存しました"
         let message = ""
         let okText = "ok"
@@ -96,23 +104,34 @@ class CopyViewController: UIViewController, UINavigationControllerDelegate, UITa
         alert.addAction(okayButton)
 
         present(alert, animated: true, completion: nil)
+        
     }
     
-    func SaveScreenShot(){
-        
-        let width = CGFloat(UIScreen.main.bounds.size.width)
-        let height = CGFloat(UIScreen.main.bounds.size.height)
-        let size = CGSize(width: width, height: height)
-        
-        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        //viewを書き出す
-        self.view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
-        // imageにコンテキストの内容を書き出す
-        screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
-        //コンテキストを閉じる
-        UIGraphicsEndImageContext()
-        // imageをカメラロールに保存
-        UIImageWriteToSavedPhotosAlbum(screenShotImage, nil, nil, nil)
-        
+//    func SaveScreenShot(){
+//
+//        let width = CGFloat(UIScreen.main.bounds.size.width)
+//        let height = CGFloat(UIScreen.main.bounds.size.height)
+//        let size = CGSize(width: width, height: height)
+//
+//        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+//        //viewを書き出す
+//        self.view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+//        // imageにコンテキストの内容を書き出す
+//        screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
+//        //コンテキストを閉じる
+//        UIGraphicsEndImageContext()
+//        // imageをカメラロールに保存
+//        UIImageWriteToSavedPhotosAlbum(screenShotImage, nil, nil, nil)
+//
+//    }
+    func SaveScreenShot() {
+        tableView.snapshot(scale: 1.0) { image in
+            if let image = image {
+                 // imageをカメラロールに保存
+                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            } else {
+                // TODO: 画像の取得に失敗した事をユーザーに提示する
+            }
+        }
     }
 }

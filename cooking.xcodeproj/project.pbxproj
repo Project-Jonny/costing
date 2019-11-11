@@ -22,6 +22,7 @@
 		FB8F94432344E03200716120 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8F94422344E03200716120 /* ViewController.swift */; };
 		FB8F94652345088700716120 /* CopyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8F94642345088700716120 /* CopyViewController.swift */; };
 		FB8F9467234C43EE00716120 /* CellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8F9466234C43EE00716120 /* CellViewController.swift */; };
+		FBEA37FA2373DD1E009E2B2F /* UIScrollView+snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEA37F92373DD1E009E2B2F /* UIScrollView+snapshot.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		FB8F94422344E03200716120 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FB8F94642345088700716120 /* CopyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyViewController.swift; sourceTree = "<group>"; };
 		FB8F9466234C43EE00716120 /* CellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellViewController.swift; sourceTree = "<group>"; };
+		FBEA37F92373DD1E009E2B2F /* UIScrollView+snapshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+snapshot.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				FB52B377233E63A400D54D4F /* GoogleData.swift */,
 				FB8F94422344E03200716120 /* ViewController.swift */,
 				FB8F94642345088700716120 /* CopyViewController.swift */,
+				FBEA37F92373DD1E009E2B2F /* UIScrollView+snapshot.swift */,
 				FB6BF98E23571D22008CCF2E /* Indicator.swift */,
 			);
 			path = cooking;
@@ -240,6 +243,7 @@
 				FB8F94652345088700716120 /* CopyViewController.swift in Sources */,
 				FB2A23C5233D92F400EFF76D /* cookingViewController.swift in Sources */,
 				FB52B36F233E48AF00D54D4F /* recipeViewController.swift in Sources */,
+				FBEA37FA2373DD1E009E2B2F /* UIScrollView+snapshot.swift in Sources */,
 				FB6BF98D234E1897008CCF2E /* recipedata.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
