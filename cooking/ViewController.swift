@@ -18,42 +18,49 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
     var searchController = UISearchController()
     var searchResults:[Int] = []
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+       override func viewDidLoad() {
+           super.viewDidLoad()
 
-        LoadingProxy.set(v: self); //表示する親をセット
-        LoadingProxy.on()//ローディング表示。非表示にする場合はoff
-        
-        //Navigationbarの設定
-        self.navigationController?.navigationBar.barStyle = .black
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "wood"), for: .default)
-        self.navigationController?.navigationBar.tintColor = .white
-        self.navigationController?.navigationBar.titleTextAttributes = [
-            .foregroundColor: UIColor.white]
-        
-        getData()
-        
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = (self as UISearchResultsUpdating)
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.placeholder = "search"
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.sizeToFit()
-        searchController.searchBar.tintColor = UIColor.systemBlue
-        navigationItem.searchController = searchController
+           LoadingProxy.set(v: self); //表示する親をセット
+           LoadingProxy.on()//ローディング表示。非表示にする場合はoff
+           
+           //Navigationbarの設定
+           self.navigationController?.navigationBar.barStyle = .black
+           self.navigationController?.navigationBar.tintColor = .white
+           self.navigationController?.navigationBar.titleTextAttributes = [
+               .foregroundColor: UIColor.white]
+           
+           getData()
+           
+           searchController = UISearchController(searchResultsController: nil)
+           // Setup the Search Controller
+           searchController.searchBar.backgroundColor = .white
+           searchController.searchBar.isTranslucent = false
+           searchController.searchResultsUpdater = self
+           searchController.hidesNavigationBarDuringPresentation = false
+           searchController.obscuresBackgroundDuringPresentation = false
+           searchController.searchBar.placeholder = "Search"
+           searchController.searchBar.tintColor = .systemBlue
+           definesPresentationContext = true
 
-        tableview.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-        tableview.delegate = self
-        tableview.dataSource = self
+           // Implement Search Controller
+           navigationItem.searchController = searchController
+           navigationItem.hidesSearchBarWhenScrolling = false
+           navigationController?.navigationBar.setBackgroundImage(UIImage(named: "wood"), for: .default)
 
-        textArray = UserDefaults.standard.array(forKey: "alert") as? [String] ?? []
-        baikaArray = UserDefaults.standard.array(forKey: "baikaB") as? [String] ?? []
-        genkaArray = UserDefaults.standard.array(forKey: "genkaB") as? [String] ?? []
-        riekiArray = UserDefaults.standard.array(forKey: "riekiB") as? [String] ?? []
-        totalArray = UserDefaults.standard.array(forKey: "totalB") as? [String] ?? []
-        tapArray = UserDefaults.standard.array(forKey: "tap") as? [[Int]] ?? []
- 
-        searchResults = textArray.enumerated().map { $0.0 }
+
+           tableview.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+           tableview.delegate = self
+           tableview.dataSource = self
+
+           textArray = UserDefaults.standard.array(forKey: "alert") as? [String] ?? []
+           baikaArray = UserDefaults.standard.array(forKey: "baikaB") as? [String] ?? []
+           genkaArray = UserDefaults.standard.array(forKey: "genkaB") as? [String] ?? []
+           riekiArray = UserDefaults.standard.array(forKey: "riekiB") as? [String] ?? []
+           totalArray = UserDefaults.standard.array(forKey: "totalB") as? [String] ?? []
+           tapArray = UserDefaults.standard.array(forKey: "tap") as? [[Int]] ?? []
+    
+           searchResults = textArray.enumerated().map { $0.0 }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,6 +72,7 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
         totalArray = UserDefaults.standard.array(forKey: "totalB") as? [String] ?? []
         tapArray = UserDefaults.standard.array(forKey: "tap") as? [[Int]] ?? []
         
+        searchResults = textArray.enumerated().map { $0.0 }
         tableview.reloadData()
     }
     
@@ -183,8 +191,4 @@ class ViewController: UIViewController,UITableViewDelegate, UITableViewDataSourc
 
 
 }
-//navigationbar消えるwhy?
-//一旦押さないと保存したやつが更新されない
 //数値途中で変えると押してた形跡が消える
-//カテゴリわけ出来ない
-//しまえるようにしたい

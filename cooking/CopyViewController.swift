@@ -19,9 +19,6 @@ class CopyViewController: UIViewController, UINavigationControllerDelegate, UITa
     var screenShotImage = UIImage()
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        UIScrollView()
         
         tableView.frame = tableViewContainer.bounds
         tableView.delegate = self
@@ -107,31 +104,66 @@ class CopyViewController: UIViewController, UINavigationControllerDelegate, UITa
         
     }
     
-//    func SaveScreenShot(){
-//
-//        let width = CGFloat(UIScreen.main.bounds.size.width)
-//        let height = CGFloat(UIScreen.main.bounds.size.height)
-//        let size = CGSize(width: width, height: height)
-//
-//        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-//        //viewを書き出す
-//        self.view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
-//        // imageにコンテキストの内容を書き出す
-//        screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
-//        //コンテキストを閉じる
-//        UIGraphicsEndImageContext()
-//        // imageをカメラロールに保存
-//        UIImageWriteToSavedPhotosAlbum(screenShotImage, nil, nil, nil)
-//
-//    }
+    func ScreenShot1(){
+
+        let width = CGFloat(UIScreen.main.bounds.size.width)
+        let height = CGFloat(UIScreen.main.bounds.size.height - tableView.frame.height - navigationController!.navigationBar.frame.height)
+        let size = CGSize(width: width, height: height)
+
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        //viewを書き出す
+        self.view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+        // imageにコンテキストの内容を書き出す
+        screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
+        //コンテキストを閉じる
+        UIGraphicsEndImageContext()
+        // imageをカメラロールに保存
+        UIImageWriteToSavedPhotosAlbum(screenShotImage, nil, nil, nil)
+        
+    }
     func SaveScreenShot() {
         tableView.snapshot(scale: 1.0) { image in
             if let image = image {
-                 // imageをカメラロールに保存
-                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                
+                //１枚目の画像を書き出す
+                let width = CGFloat(UIScreen.main.bounds.size.width)
+                let height = CGFloat(UIScreen.main.bounds.size.height - self.tableView.frame.height - self.navigationController!.navigationBar.frame.height)
+                let size = CGSize(width: width, height: height)
+
+                UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+                //viewを書き出す
+                self.view.drawHierarchy(in: self.view.bounds, afterScreenUpdates: true)
+                // imageにコンテキストの内容を書き出す
+                self.screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
+                
+                //コンテキストを閉じる
+                UIGraphicsEndImageContext()
+
+                
+                //２枚目の画像を１枚目の高さの下から書き出す
+                let height2 = image.size.height + self.screenShotImage.size.height
+                UIGraphicsBeginImageContextWithOptions(CGSize(width: width, height: height2), false, 0.0)
+                
+                //１枚目と２枚目を合わせて書き出す
+                self.screenShotImage.draw(at: CGPoint(x: 0, y: 0))
+                image.draw(at: CGPoint(x: 0, y: self.screenShotImage.size.height))
+                
+                let image2 = UIGraphicsGetImageFromCurrentImageContext()
+                
+                //コンテキストを閉じる
+                UIGraphicsEndImageContext()
+
+                
+                if let image2 = image2 {
+                    // imageをカメラロールに保存
+                    UIImageWriteToSavedPhotosAlbum(image2, nil, nil, nil)
+                }
+
+                
             } else {
                 // TODO: 画像の取得に失敗した事をユーザーに提示する
             }
+//            self.ScreenShot1()
         }
     }
 }

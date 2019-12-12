@@ -24,6 +24,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     var celltaped:Int = 0
     var tableView:UITableView = UITableView()
     var refreshControll = UIRefreshControl()
+    var selectjudge: [Int: Bool] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         //searchControllerまとめ
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = (self as UISearchResultsUpdating)
+        self.searchController.isActive = false; //クラッシュ問題
         //位置を固定する
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "search"
@@ -78,6 +80,16 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         
         searchResults = recipedata.shared.nameArray.enumerated().map { $0.0 }
                 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        selectjudge.forEach {
+            if $0.value {
+                self.tableView.selectRow(at: IndexPath(row: $0.key, section: 0), animated: false, scrollPosition: .none)
+            }
+        }
     }
     
     @objc func receivechange(_ notification: NSNotification) {
@@ -130,7 +142,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
         
-        cell.selectionStyle = .blue
+        cell.selectionStyle = .gray
         cell.textLabel?.text = recipedata.shared.nameArray[searchResults[indexPath.row]]
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         cell.textLabel?.numberOfLines = 1
@@ -138,7 +150,12 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         cell.detailTextLabel?.adjustsFontSizeToFitWidth = true
         cell.detailTextLabel?.numberOfLines = 1
         cell.accessoryType = .detailButton
-          
+
+//        let selected =  selectjudge[indexPath.row] ?? false
+//        cell.isSelected = selected
+//        cell.isHighlighted = selected
+//        cell.backgroundColor = selected ? .lightGray : .white
+
         return cell
 
     }
@@ -195,6 +212,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         print("select - \(indexPath)")
         
         cell?.isSelected = true
+        selectjudge[indexPath.row] = true
         
         //totalに入れる
         self.total += Float(recipedata.shared.priceArray[searchResults[indexPath.row]]) ?? 0
@@ -255,7 +273,8 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         print("deselect - \(indexPath)")
 
         let cell = tableView.cellForRow(at:indexPath)
-            cell?.isSelected = false
+        cell?.isSelected = false
+        selectjudge[indexPath.row] = false
 
             self.total -= Float(recipedata.shared.priceArray[searchResults[indexPath.row]]) ?? 0
             genkaTotal.text = String(self.total)
