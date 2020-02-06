@@ -49,6 +49,7 @@ class cookingViewController: UIViewController, UINavigationControllerDelegate, U
         tableView.tableHeaderView = searchController.searchBar
         
         //Tableviewまとめ
+        tableViewContainer.frame = CGRect(x: 0, y: 412, width: view.frame.width, height: view.frame.height)
         tableView.frame = tableViewContainer.bounds
         tableView.delegate = self
         tableView.dataSource = self

@@ -8,6 +8,7 @@ class CopyViewController: UIViewController, UINavigationControllerDelegate, UITa
     @IBOutlet var rieki: UILabel!
     @IBOutlet var genkaTotal: UILabel!
     @IBOutlet var tableViewContainer: UIView!
+    @IBOutlet weak var name: UILabel!
     
     var tableView:UITableView = UITableView()
     var baikavalue:String = ""
@@ -27,6 +28,7 @@ class CopyViewController: UIViewController, UINavigationControllerDelegate, UITa
         
         self.navigationItem.title = recipevalue
                 
+        name.text = recipevalue
         baika.text = baikavalue
         genkaritsu.text = genkavalue
         rieki.text = riekivalue

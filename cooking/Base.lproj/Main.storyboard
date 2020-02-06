@@ -212,6 +212,7 @@
                         <constraints>
                             <constraint firstItem="TRP-y8-Dqn" firstAttribute="top" secondItem="c2q-JV-ohc" secondAttribute="top" constant="41" id="1Un-BH-3eS"/>
                             <constraint firstItem="LeG-Dq-YC2" firstAttribute="bottom" secondItem="c2q-JV-ohc" secondAttribute="bottom" id="4u5-Bq-aQQ"/>
+                            <constraint firstItem="LeG-Dq-YC2" firstAttribute="bottom" secondItem="c2q-JV-ohc" secondAttribute="bottom" id="U6D-v9-d5c"/>
                             <constraint firstItem="LeG-Dq-YC2" firstAttribute="trailing" secondItem="c2q-JV-ohc" secondAttribute="trailing" id="bZq-qI-WeJ"/>
                             <constraint firstItem="LeG-Dq-YC2" firstAttribute="top" secondItem="TRP-y8-Dqn" secondAttribute="bottom" constant="45" id="itq-Ok-GCM"/>
                             <constraint firstItem="LeG-Dq-YC2" firstAttribute="leading" secondItem="c2q-JV-ohc" secondAttribute="leading" id="jd7-An-nqL"/>
@@ -490,14 +491,24 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4wM-qU-0Ep">
                                 <rect key="frame" x="0.0" y="334.33333333333331" width="414" height="527.66666666666674"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sW6-Rs-hYm">
+                                <rect key="frame" x="20" y="53" width="374" height="31"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="4wM-qU-0Ep" firstAttribute="top" secondItem="BA2-53-vVm" secondAttribute="bottom" constant="45" id="Byz-jZ-cxg"/>
+                            <constraint firstItem="BA2-53-vVm" firstAttribute="top" secondItem="sW6-Rs-hYm" secondAttribute="bottom" constant="34" id="ECC-rM-BjP"/>
+                            <constraint firstItem="sW6-Rs-hYm" firstAttribute="leading" secondItem="yvs-Gi-u8v" secondAttribute="leading" constant="20" id="ErC-gk-dR9"/>
+                            <constraint firstItem="sW6-Rs-hYm" firstAttribute="top" secondItem="yvs-Gi-u8v" secondAttribute="top" constant="53" id="NaK-Og-97X"/>
                             <constraint firstItem="cww-nV-qdr" firstAttribute="bottom" secondItem="4wM-qU-0Ep" secondAttribute="bottom" id="Nx1-jj-lAn"/>
                             <constraint firstItem="4wM-qU-0Ep" firstAttribute="leading" secondItem="cww-nV-qdr" secondAttribute="leading" id="cLr-c3-cGe"/>
                             <constraint firstItem="BA2-53-vVm" firstAttribute="top" secondItem="cww-nV-qdr" secondAttribute="top" constant="30" id="rgl-wg-wex"/>
                             <constraint firstItem="BA2-53-vVm" firstAttribute="centerX" secondItem="yvs-Gi-u8v" secondAttribute="centerX" id="tU8-fr-Syf"/>
+                            <constraint firstAttribute="trailing" secondItem="sW6-Rs-hYm" secondAttribute="trailing" constant="20" id="uKR-EI-Qvd"/>
                             <constraint firstItem="4wM-qU-0Ep" firstAttribute="trailing" secondItem="cww-nV-qdr" secondAttribute="trailing" id="vKC-sE-C9V"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cww-nV-qdr"/>
@@ -513,13 +524,14 @@
                         <outlet property="baika" destination="IgL-zl-61h" id="9gc-0a-yUh"/>
                         <outlet property="genkaTotal" destination="oAf-p2-W8u" id="cr1-2J-2oL"/>
                         <outlet property="genkaritsu" destination="JUu-rB-h2W" id="ffq-Qt-BUZ"/>
+                        <outlet property="name" destination="sW6-Rs-hYm" id="N2a-cv-Dxr"/>
                         <outlet property="rieki" destination="UgU-4k-QmA" id="Qd4-ZM-Kil"/>
                         <outlet property="tableViewContainer" destination="4wM-qU-0Ep" id="oK6-J9-ayZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rhA-aD-Gf8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2484" y="755"/>
+            <point key="canvasLocation" x="2482.608695652174" y="754.6875"/>
         </scene>
     </scenes>
     <resources>
